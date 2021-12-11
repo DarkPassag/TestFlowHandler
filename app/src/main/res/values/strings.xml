@@ -3,4 +3,7 @@
     <string name="asynctask">asyncTask</string>
     <string name="start">Start</string>
     <string name="stop">Stop</string>
+    <string name="flow_text">Get Text With Flow</string>
+    <string name="liveDataText">Get Text LiveData</string>
+    <string name="stopFlow">Stop Flow</string>
 </resources>
