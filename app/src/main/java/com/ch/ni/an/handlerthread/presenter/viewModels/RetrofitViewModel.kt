@@ -1,16 +1,15 @@
-package com.ch.ni.an.handlerthread
+package com.ch.ni.an.handlerthread.presenter.viewModels
 
 
 import android.util.Log
 import android.widget.TextView
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ch.ni.an.handlerthread.retrofit.Common
+import com.ch.ni.an.handlerthread.model.retrofit.Common
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.Flow
 
 
-class Corutines: ViewModel() {
+class RetrofitViewModel: ViewModel() {
 
     val retrofit = Common.retrofit
 

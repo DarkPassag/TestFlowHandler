@@ -1,4 +1,4 @@
-package com.ch.ni.an.handlerthread.retrofit
+package com.ch.ni.an.handlerthread.model.retrofit
 
 import retrofit2.Retrofit
 import retrofit2.converter.scalars.ScalarsConverterFactory

@@ -1,16 +1,4 @@
-package com.ch.ni.an.handlerthread
-
-import android.app.Service
-import android.content.Intent
-import android.media.MediaPlayer
-import android.os.IBinder
-import android.widget.Toast
-import com.ch.ni.an.handlerthread.retrofit.Common
-import com.ch.ni.an.handlerthread.retrofit.RetrofitService
-import kotlinx.coroutines.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+package com.ch.ni.an.handlerthread.presenter
 
 /**
 class TestService : Service() {

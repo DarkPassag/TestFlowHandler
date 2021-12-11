@@ -1,6 +1,5 @@
-package com.ch.ni.an.handlerthread.retrofit
+package com.ch.ni.an.handlerthread.model.retrofit
 
-import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.GET
 
