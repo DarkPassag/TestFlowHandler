@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import java.io.IOException
+import java.lang.IllegalStateException
 import kotlin.system.measureTimeMillis
 
 
@@ -79,8 +80,8 @@ class FetchAny: GetOkHttp, CancelFlow, GetData {
 
         val text = coroutineScope {
             val firstText = async {
-                simpleText() }
-            val secondText = async { simpleText() }
+                simpleTextRetrofit() }
+            val secondText = async { simpleTextRetrofit() }
 
             return@coroutineScope "${firstText.await()}\n\n${secondText.await()}"
         }
@@ -90,12 +91,18 @@ class FetchAny: GetOkHttp, CancelFlow, GetData {
 
 
 
-    private suspend fun simpleText() :String {
+    private suspend fun simpleTextRetrofit() :String {
         return service.fetchAny().let {
             if (!it.isSuccessful) throw IOException(it.message())
             it.body().toString()
         }
+    }
 
+    private fun simpleTextOkHttp(): String {
+       return okHttp.clone().execute().use {
+            if(!it.isSuccessful) throw IllegalStateException("")
+           it.body!!.string()
+        }
     }
 
 
@@ -103,19 +110,28 @@ class FetchAny: GetOkHttp, CancelFlow, GetData {
         val time1 = measureTimeMillis {
             coroutineScope {
                 var text = ""
-               repeat(100){
-                   text = async { simpleText() }.await()
-               }
+                repeat(100){
+                    async { simpleTextRetrofit() }
+                }
+                
             }
         }
        val time2 = measureTimeMillis {
            var text = ""
            for(i in 0..100){
-               text = simpleText()
+               text = simpleTextRetrofit()
+           }
+       }
+
+       val time3 = measureTimeMillis {
+           var text = ""
+           repeat(100){
+               text = simpleTextOkHttp()
            }
        }
        Log.e("Async", "AsyncTimeRequest: $time1")
        Log.e("Sync", "SyncTimeRequest: $time2")
+       Log.e("SyncOkHttp", "SyncTimeRequestOkhttp: $time3")
     }
 }
 
