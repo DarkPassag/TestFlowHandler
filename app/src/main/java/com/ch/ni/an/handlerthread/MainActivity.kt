@@ -1,6 +1,7 @@
 package com.ch.ni.an.handlerthread
 
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -8,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.ch.ni.an.handlerthread.databinding.ActivityMainBinding
 import com.ch.ni.an.handlerthread.domain.FetchAny
+import com.ch.ni.an.handlerthread.lessonView2.TicTacActivity
 import com.ch.ni.an.handlerthread.presenter.BottomButtonAction
 import com.ch.ni.an.handlerthread.presenter.viewModels.MyFactoryViewModels
 import com.ch.ni.an.handlerthread.presenter.viewModels.OkHttpViewModel
@@ -58,12 +60,8 @@ class MainActivity : AppCompatActivity() {
 
         binding.bottomButtonsView.setListener {
             if(it == BottomButtonAction.POSITIVE){
-                lifecycleScope.launch {
-                    binding.bottomButtonsView.isProgressMode = true
-                    delay(3000)
-                    binding.bottomButtonsView.isProgressMode = false
-                    binding.bottomButtonsView.setPositiveText("SomeText")
-                }
+                startActivity(Intent(this, TicTacActivity::class.java))
+                finish()
 
             }
         }

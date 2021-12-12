@@ -15,4 +15,13 @@
 
     <attr name="bottomButtonsStyle" format="reference"/>
 
+    <declare-styleable name="TikTakToeView">
+        
+        <attr name="playerOneColor" format="color" />
+        <attr name="playerTwoColor" format="color"/>
+        <attr name="greedColor" format="color"/>
+    </declare-styleable>
+
+    <attr name="TicTacToeFieldStyle" format="reference"/>
+
 </resources>

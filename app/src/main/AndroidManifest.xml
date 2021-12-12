@@ -11,12 +11,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.HandlerThread" >
-        <service
-            android:name=".TestService"
-            android:enabled="true"
-            android:exported="true" >
-        </service>
 
+        <activity
+            android:name=".lessonView2.TicTacActivity"
+            android:exported="true"/>
         <activity
             android:name=".MainActivity"
             android:exported="true" >
