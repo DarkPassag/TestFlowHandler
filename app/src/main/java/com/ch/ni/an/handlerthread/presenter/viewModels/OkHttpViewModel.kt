@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ch.ni.an.handlerthread.domain.FetchAny
+import com.ch.ni.an.handlerthread.model.Post
 import com.ch.ni.an.handlerthread.model.okHttp.CancelFlow
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
@@ -21,6 +22,10 @@ class OkHttpViewModel(
 
     private val _someString = MutableStateFlow<String>("awaiting")
     val someSting = _someString
+
+    private val _posts = MutableLiveData<List<Post>>()
+    val post: LiveData<List<Post>> = _posts
+
 
 
 
@@ -57,7 +62,12 @@ class OkHttpViewModel(
                 _message.postValue(it)
             }
         }
+    }
 
+    private fun getListPosts(){
+        viewModelScope.launch(Dispatchers.IO){
+            _posts.postValue(fetchAny.getListPosts())
+        }
     }
 
 
@@ -68,8 +78,10 @@ class OkHttpViewModel(
         fetchText()
         getTwiceString()
         viewModelScope.launch(Dispatchers.IO) {
-            fetchAny.testingRequest()
+            fetchAny.getListPosts()
         }
+        getListPosts()
+
     }
 
    fun startStopFlow(status: Boolean){

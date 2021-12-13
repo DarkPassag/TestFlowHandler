@@ -6,4 +6,5 @@
     <string name="flow_text">Get Text With Flow</string>
     <string name="liveDataText">Get Text LiveData</string>
     <string name="stopFlow">Stop Flow</string>
+    <string name="completed">Completed: </string>
 </resources>

@@ -1,22 +1,31 @@
 package com.ch.ni.an.handlerthread.domain
 
 
+
+
 import android.util.Log
+import com.ch.ni.an.handlerthread.model.Post
+import com.ch.ni.an.handlerthread.model.PostModel
 import com.ch.ni.an.handlerthread.model.okHttp.CancelFlow
+import com.ch.ni.an.handlerthread.model.okHttp.GetListPosts
 import com.ch.ni.an.handlerthread.model.okHttp.GetOkHttp
 import com.ch.ni.an.handlerthread.model.okHttp.OkHttp
 import com.ch.ni.an.handlerthread.model.retrofit.Common
 import com.ch.ni.an.handlerthread.model.retrofit.GetData
+import com.ch.ni.an.handlerthread.model.toPost
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
 import java.io.IOException
 import java.lang.IllegalStateException
-import kotlin.system.measureTimeMillis
 
 
-class FetchAny: GetOkHttp, CancelFlow, GetData {
+
+
+class FetchAny: GetOkHttp, CancelFlow, GetData, GetListPosts {
 
     private val okHttp = OkHttp.response
 
@@ -80,8 +89,8 @@ class FetchAny: GetOkHttp, CancelFlow, GetData {
 
         val text = coroutineScope {
             val firstText = async {
-                simpleTextRetrofit() }
-            val secondText = async { simpleTextRetrofit() }
+               }
+            val secondText = async {  }
 
             return@coroutineScope "${firstText.await()}\n\n${secondText.await()}"
         }
@@ -98,14 +107,24 @@ class FetchAny: GetOkHttp, CancelFlow, GetData {
         }
     }
 
-    private fun simpleTextOkHttp(): String {
-       return okHttp.clone().execute().use {
-            if(!it.isSuccessful) throw IllegalStateException("")
-           it.body!!.string()
+    private fun simpleTextOkHttp() :String {
+        return okHttp.clone().execute().use {
+            if (!it.isSuccessful) throw IllegalStateException("")
+            it.body!!.string()
         }
     }
 
+    override suspend fun getListPosts() :List<Post> {
+        okHttp.clone().execute().use {
+            if (!it.isSuccessful) throw IllegalStateException(it.message)
+            val response = it.body!!.string()
+            val listPosts = Json.decodeFromString<List<PostModel>>(response).map { it.toPost() }
+            return listPosts
+        }
 
+    }
+
+    /**
    suspend fun testingRequest(){
         val time1 = measureTimeMillis {
             coroutineScope {
@@ -133,6 +152,8 @@ class FetchAny: GetOkHttp, CancelFlow, GetData {
        Log.e("Sync", "SyncTimeRequest: $time2")
        Log.e("SyncOkHttp", "SyncTimeRequestOkhttp: $time3")
     }
+
+   */
 }
 
 
