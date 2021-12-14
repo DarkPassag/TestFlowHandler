@@ -4,12 +4,16 @@ package com.ch.ni.an.handlerthread
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.ch.ni.an.handlerthread.databinding.ActivityMainBinding
 import com.ch.ni.an.handlerthread.domain.FetchAny
-import com.ch.ni.an.handlerthread.presenter.PostAdapter
+import com.ch.ni.an.handlerthread.model.HeadClassModel
+import com.ch.ni.an.handlerthread.presenter.adapters.HeaderAdapter
+import com.ch.ni.an.handlerthread.presenter.adapters.PostAdapter
 import com.ch.ni.an.handlerthread.presenter.viewModels.MyFactoryViewModels
 import com.ch.ni.an.handlerthread.presenter.viewModels.OkHttpViewModel
 
@@ -23,7 +27,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var factory: MyFactoryViewModels
 
     private lateinit var recyclerView:RecyclerView
-    private lateinit var adapter: PostAdapter
+    private lateinit var adapter:PostAdapter
+    private lateinit var headerAdapter: HeaderAdapter
+    private lateinit var concatAdapter :ConcatAdapter
 
 
     override fun onCreate(savedInstanceState :Bundle?) {
@@ -38,11 +44,22 @@ class MainActivity : AppCompatActivity() {
         myModel = ViewModelProvider(this,
         factory).get(OkHttpViewModel::class.java)
 
+
+        headerAdapter = HeaderAdapter {
+            Toast.makeText(this, " ${it.tag}", Toast.LENGTH_SHORT).show()
+        }
         adapter = PostAdapter()
+        concatAdapter = ConcatAdapter(headerAdapter, adapter)
         recyclerView = binding.recyclerView
-        recyclerView.adapter = adapter
+        recyclerView.adapter = concatAdapter
+
+
 
         myModel.post.observe(this, {
+            it?.let {
+                headerAdapter.submitList(
+                    listOf(HeadClassModel("Count of posts: ${it.size}")))
+            }
             adapter.submitList(it)
         })
 

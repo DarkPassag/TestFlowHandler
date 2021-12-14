@@ -22,6 +22,11 @@ object OkHttp {
         .url("https://jsonplaceholder.typicode.com/todos")
         .build()
 
+    private val requestUsers = Request.Builder()
+        .url("https://jsonplaceholder.typicode.com/users")
+        .build()
+
     val response = client.newCall(request)
+    val responseUsers = client.newCall(requestUsers)
 }
 

@@ -79,6 +79,7 @@ class OkHttpViewModel(
         getTwiceString()
         viewModelScope.launch(Dispatchers.IO) {
             fetchAny.getListPosts()
+            fetchAny.getListUsers()
         }
         getListPosts()
 
