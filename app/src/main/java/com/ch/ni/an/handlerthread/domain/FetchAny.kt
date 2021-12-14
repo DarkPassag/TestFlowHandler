@@ -12,6 +12,7 @@ import com.ch.ni.an.handlerthread.model.okHttp.OkHttp
 import com.ch.ni.an.handlerthread.model.retrofit.Common
 import com.ch.ni.an.handlerthread.model.retrofit.GetData
 import com.ch.ni.an.handlerthread.model.retrofit.GetUsers
+import com.ch.ni.an.handlerthread.model.retrofit.toUser
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -87,16 +88,14 @@ class FetchAny: GetOkHttp, CancelFlow, GetData, GetListPosts, GetUsers {
     override suspend fun getTwiceText() :String {
 
         val text = coroutineScope {
-            val firstText = async {
-               }
-            val secondText = async {  }
+            val firstText = async {}
+            val secondText = async { }
 
             return@coroutineScope "${firstText.await()}\n\n${secondText.await()}"
         }
 
         return text
     }
-
 
 
     private suspend fun simpleTextRetrofit() :String {
@@ -125,19 +124,15 @@ class FetchAny: GetOkHttp, CancelFlow, GetData, GetListPosts, GetUsers {
 
     override fun getListUsers() :List<User> {
         okHttp.responseUsers.clone().execute().use {
-            if(!it.isSuccessful && it.body!!.string().isEmpty()) throw IOException(it.message)
+            if (!it.isSuccessful && it.body!!.string().isEmpty()) throw IOException(it.message)
             val response = it.body!!.string()
 
-            val format = Json { ignoreUnknownKeys = true}
-            val listUsers = format.decodeFromString<List<UserModel>>(response).apply {
-                forEach {
-                    Log.e("SomeUser", it.username)
-                }
-            }
-            return emptyList()
-            }
+            val format = Json { ignoreUnknownKeys = true }
+            val listUsers = format.decodeFromString<List<UserModel>>(response)
+            return listUsers.map { UserModel -> UserModel.toUser() }
         }
     }
+}
 
 
 
