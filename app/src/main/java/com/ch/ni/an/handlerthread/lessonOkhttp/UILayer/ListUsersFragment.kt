@@ -24,6 +24,10 @@ class ListUsersFragment: Fragment() {
     private lateinit var recyclerView :RecyclerView
     private lateinit var adapter :UsersAdapter
 
+    private val fab by lazy {
+        binding.fab
+    }
+
     override fun onCreateView(
         inflater :LayoutInflater,
         container :ViewGroup?,
@@ -38,8 +42,28 @@ class ListUsersFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         recyclerView = binding.recyclerView
-        adapter = UsersAdapter {}
+        adapter = UsersAdapter {
+            //TODO
+        }
         recyclerView.adapter = adapter
+
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener(){
+            override fun onScrolled(recyclerView :RecyclerView, dx :Int, dy :Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                if(dy > 10 && fab.isShown ){
+                    fab.hide()
+                }
+                if (dy < -10 && !fab.isShown) {
+                    fab.show()
+                }
+                if (dy < -10 && !fab.isShown) {
+                    fab.show()
+                }
+            }
+        })
+
+
 
         myModel.users.observe(this, {
             adapter.submitList(it)

@@ -7,4 +7,5 @@
     <string name="liveDataText">Get Text LiveData</string>
     <string name="stopFlow">Stop Flow</string>
     <string name="completed">Completed: </string>
+    <string name="add_new_Post">Add new post</string>
 </resources>
