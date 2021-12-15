@@ -4,9 +4,12 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/admin/AndroidStudioProjects/HandlerThread/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/HandlerThread/app/src/main/res/layout/activity_users.xml" value="0.20520833333333333" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/HandlerThread/app/src/main/res/layout/fragment_users.xml" value="0.128125" />
         <entry key="..\:/Users/admin/AndroidStudioProjects/HandlerThread/app/src/main/res/layout/header_layout.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/admin/AndroidStudioProjects/HandlerThread/app/src/main/res/layout/part_buttons.xml" value="0.33" />
         <entry key="..\:/Users/admin/AndroidStudioProjects/HandlerThread/app/src/main/res/layout/recyclerview_item.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/HandlerThread/app/src/main/res/layout/recyclerview_user.xml" value="0.20520833333333333" />
         <entry key="..\:/Users/admin/AndroidStudioProjects/HandlerThread/app/src/main/res/layout/tic_tac_activity.xml" value="0.25" />
         <entry key="..\:/Users/admin/AndroidStudioProjects/HandlerThread/app/src/main/res/layout/user_card.xml" value="0.13333333333333333" />
       </map>

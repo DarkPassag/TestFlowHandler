@@ -16,7 +16,10 @@
             android:name=".lessonView2.TicTacActivity"
             android:exported="true"/>
         <activity
-            android:name=".MainActivity"
+            android:name=".trash.MainActivity"
+            android:exported="true"/>
+        <activity
+            android:name=".lessonOkhttp.UsersActivity"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
