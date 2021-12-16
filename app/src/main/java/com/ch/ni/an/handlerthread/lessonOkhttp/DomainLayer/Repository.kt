@@ -1,17 +1,17 @@
 package com.ch.ni.an.handlerthread.lessonOkhttp.DomainLayer
 
-import android.util.Log
 import com.ch.ni.an.handlerthread.lessonOkhttp.DataLayer.PostModel
 import com.ch.ni.an.handlerthread.lessonOkhttp.DataLayer.User
 import com.ch.ni.an.handlerthread.lessonOkhttp.DataLayer.UserModel
 import com.ch.ni.an.handlerthread.lessonOkhttp.DataLayer.okHttp.OkHttp
 import com.ch.ni.an.handlerthread.lessonOkhttp.Extensions.toUser
+import com.ch.ni.an.handlerthread.trash.model.Post
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import java.io.IOException
 
 
-class Repository : FetchListUsers, FetchUserById, NewPost, UpdatePost, DeletePost {
+class Repository : FetchListUsers, FetchPostsById, NewPost, UpdatePost, DeletePost {
 
     private val okHttp = OkHttp()
 
@@ -31,8 +31,13 @@ class Repository : FetchListUsers, FetchUserById, NewPost, UpdatePost, DeletePos
         }
     }
 
-    override fun fetchUserById(id :Int) :User {
-        TODO("Not yet implemented")
+    override fun getPosts(id :Int) :List<PostModel> {
+      okHttp.getListPostsByUser(id).clone().execute().use { response ->
+          if(!response.isSuccessful) throw IOException(response.message)
+          val stringResponse = response.body!!.string()
+          val listPostsModel = Json.decodeFromString<List<PostModel>>(stringResponse)
+          return listPostsModel
+      }
     }
 
     override fun newPost(postData :PostModel) :Boolean {

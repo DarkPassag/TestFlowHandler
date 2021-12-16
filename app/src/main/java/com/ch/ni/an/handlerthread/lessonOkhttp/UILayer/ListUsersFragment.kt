@@ -6,32 +6,30 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.core.os.bundleOf
+import androidx.fragment.app.*
 import androidx.recyclerview.widget.RecyclerView
 import com.ch.ni.an.handlerthread.R
 import com.ch.ni.an.handlerthread.databinding.FragmentUsersBinding
+import com.ch.ni.an.handlerthread.lessonOkhttp.DataLayer.User
 import com.ch.ni.an.handlerthread.lessonOkhttp.UILayer.adapters.UsersAdapter
 import com.ch.ni.an.handlerthread.lessonOkhttp.UILayer.viewModels.ListUserViewModel
 
 
-class ListUsersFragment: Fragment() {
+class ListUsersFragment : Fragment() {
 
-    private var _binding : FragmentUsersBinding? = null
+    private var _binding :FragmentUsersBinding? = null
     private val binding get() = _binding!!
 
-    private val myModel: ListUserViewModel by viewModels()
+    private val myModel :ListUserViewModel by viewModels()
     private lateinit var recyclerView :RecyclerView
     private lateinit var adapter :UsersAdapter
-
-    private val fab by lazy {
-        binding.fab
-    }
 
     override fun onCreateView(
         inflater :LayoutInflater,
         container :ViewGroup?,
-        savedInstanceState :Bundle?) :View? {
+        savedInstanceState :Bundle?,
+    ) :View? {
 
         _binding = FragmentUsersBinding.inflate(inflater, container, false)
 
@@ -43,27 +41,15 @@ class ListUsersFragment: Fragment() {
 
         recyclerView = binding.recyclerView
         adapter = UsersAdapter {
-            //TODO
+            val user :User = it.tag as User
+            parentFragmentManager.commit {
+                setReorderingAllowed(true)
+                val bundle = bundleOf(KEY_USER to user)
+                addToBackStack(null)
+                replace<UserFragment>(R.id.fragmentContainer, args = bundle)
+            }
         }
         recyclerView.adapter = adapter
-
-        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener(){
-            override fun onScrolled(recyclerView :RecyclerView, dx :Int, dy :Int) {
-                super.onScrolled(recyclerView, dx, dy)
-
-                if(dy > 10 && fab.isShown ){
-                    fab.hide()
-                }
-                if (dy < -10 && !fab.isShown) {
-                    fab.show()
-                }
-                if (dy < -10 && !fab.isShown) {
-                    fab.show()
-                }
-            }
-        })
-
-
 
         myModel.users.observe(this, {
             adapter.submitList(it)
@@ -75,4 +61,10 @@ class ListUsersFragment: Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
+    private fun showUserDetail(){
+        parentFragmentManager.commit {  }
+    }
 }
+
+const val KEY_USER = "keySomeUser"

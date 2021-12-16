@@ -40,6 +40,7 @@ class UsersAdapter(
         val item = getItem(position)
         holder.itemView.tag = item
         holder.bind(item)
+        holder.itemView.setOnClickListener(onClick)
     }
 
 

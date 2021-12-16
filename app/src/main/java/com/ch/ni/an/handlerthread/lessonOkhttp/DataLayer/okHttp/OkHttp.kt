@@ -4,6 +4,8 @@ import com.ch.ni.an.handlerthread.lessonOkhttp.DataLayer.PostModel
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import okhttp3.Call
+import okhttp3.HttpUrl
+import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -22,7 +24,7 @@ class OkHttp {
         .build()
 
 
-    private val body = Json.encodeToString(PostModel("New Post"," Today i send post request", 1))
+
 
     /**
     private val request = Request.Builder()
@@ -39,6 +41,15 @@ class OkHttp {
             .build()
 
         return client.newCall(getRequest)
+    }
+
+    fun getListPostsByUser(id: Int): Call{
+        val query = "https://jsonplaceholder.typicode.com/posts".toHttpUrl().newBuilder()
+        query.addQueryParameter("userId", "$id")
+        val requestPosts = Request.Builder()
+            .url(query.build())
+            .build()
+        return client.newCall(requestPosts)
     }
 
 
