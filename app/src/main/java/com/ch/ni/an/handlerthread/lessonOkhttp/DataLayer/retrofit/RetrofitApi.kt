@@ -20,26 +20,20 @@ interface RetrofitApi {
         @Query("userId") id: Int
     ): Response<List<PostModel>>
 
-    @Headers(
-        "Content-type: application/json; charset=UTF-8"
-    )
+
     @POST("posts")
     suspend fun addNewPost(
         @Body postModel: PostModel
     ): Response<PostModel>
 
-    @Headers(
-        "Content-type: application/json; charset=UTF-8"
-    )
+
     @PUT("posts/{userId}")
     suspend fun updatePostByUser(
         @Path("userId") id: Int,
         @Body postModel: PostModel
     ): Response<PostModel>
 
-    @Headers(
-        "Content-type: application/json; charset=UTF-8"
-    )
+
     @PATCH("posts/{id}/")
     suspend fun patchPost(
         @Path("id") id: Int,

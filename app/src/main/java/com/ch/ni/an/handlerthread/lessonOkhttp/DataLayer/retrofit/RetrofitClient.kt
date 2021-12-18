@@ -19,6 +19,7 @@ object RetrofitClient {
 
     private val client = OkHttpClient.Builder()
         .addInterceptor(loggingInterceptor)
+        .addInterceptor(ContentTypeInterceptor())
         .build()
 
     private val contentType = "application/json".toMediaType()
