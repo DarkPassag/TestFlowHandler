@@ -9,11 +9,13 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ch.ni.an.handlerthread.databinding.FragmentUserDetailBinding
+import com.ch.ni.an.handlerthread.lessonOkhttp.DataLayer.PostModel
 import com.ch.ni.an.handlerthread.lessonOkhttp.DataLayer.User
 import com.ch.ni.an.handlerthread.lessonOkhttp.DataLayer.UserModel
 import com.ch.ni.an.handlerthread.lessonOkhttp.Extensions.toUserUiLayer
 import com.ch.ni.an.handlerthread.lessonOkhttp.UILayer.adapters.UserDetailAdapter
 import com.ch.ni.an.handlerthread.lessonOkhttp.UILayer.viewModels.UserViewModel
+import com.google.android.material.snackbar.Snackbar
 
 class UserFragment: Fragment() {
 
@@ -58,6 +60,19 @@ class UserFragment: Fragment() {
             userCompanyTextView.text = user.company
             userWebsiteTextView.text = user.website
         }
+
+        binding.fab.setOnClickListener {
+            checkNotNull(user)
+            val newPostModel: PostModel = PostModel(user.id, 22, "My First Post", "I add my First Post" )
+            myModel.addPost(newPostModel)
+
+        }
+
+        myModel.newPost.observe(this, {
+            it?.let {
+                Snackbar.make(view, it.toString(), Snackbar.LENGTH_SHORT).show()
+            }
+        })
     }
 
 

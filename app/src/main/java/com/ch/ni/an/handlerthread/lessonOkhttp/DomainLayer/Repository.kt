@@ -1,5 +1,6 @@
 package com.ch.ni.an.handlerthread.lessonOkhttp.DomainLayer
 
+import android.util.Log
 import com.ch.ni.an.handlerthread.lessonOkhttp.DataLayer.PostModel
 import com.ch.ni.an.handlerthread.lessonOkhttp.DataLayer.User
 import com.ch.ni.an.handlerthread.lessonOkhttp.DataLayer.UserModel
@@ -29,6 +30,7 @@ class Repository : FetchListUsers, FetchPostsById, NewPost, UpdatePost, DeletePo
                 UserModel.toUser()
             }
         }
+
     }
 
     override fun getPosts(id :Int) :List<PostModel> {
@@ -40,8 +42,16 @@ class Repository : FetchListUsers, FetchPostsById, NewPost, UpdatePost, DeletePo
       }
     }
 
-    override fun newPost(postData :PostModel) :Boolean {
-        TODO("Not yet implemented")
+    override fun newPost(postData :PostModel) :PostModel {
+        okHttp.addNewPost(postData).clone().execute().use { response ->
+            if(!response.isSuccessful) throw  IOException(response.message)
+            val stringResponseBody = response.body!!.string()
+            val format = Json { ignoreUnknownKeys = true }
+            return format.decodeFromString<PostModel>(stringResponseBody)
+
+
+        }
+
     }
 
     override fun updatePost(postData :PostModel) :Boolean {

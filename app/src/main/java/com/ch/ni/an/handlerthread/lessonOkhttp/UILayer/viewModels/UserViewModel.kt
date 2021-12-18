@@ -20,10 +20,27 @@ class UserViewModel: ViewModel() {
         get() = _posts
 
 
+    private val _newPost : MutableLiveData<PostModel> by lazy {
+        MutableLiveData<PostModel>()
+    }
+
+    val newPost: LiveData<PostModel> get() {
+       return _newPost
+    }
+
+
 
     fun getPosts(id: Int){
         viewModelScope.launch(Dispatchers.IO){
             _posts.postValue(repository.getPosts(id))
         }
+    }
+
+    fun addPost(postModel: PostModel){
+        viewModelScope.launch(Dispatchers.IO){
+            _newPost.postValue(repository.newPost(postModel))
+        }
+
+        getPosts(postModel.userId)
     }
 }
