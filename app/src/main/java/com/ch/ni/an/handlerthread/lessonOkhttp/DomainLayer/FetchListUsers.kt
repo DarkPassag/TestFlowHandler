@@ -4,5 +4,5 @@ import com.ch.ni.an.handlerthread.lessonOkhttp.DataLayer.User
 
 interface FetchListUsers {
 
-    fun fetchListOfUsers(): List<User>
+   suspend fun fetchListOfUsers(): List<User>
 }

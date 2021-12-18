@@ -14,7 +14,7 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.logging.HttpLoggingInterceptor
 import org.json.JSONObject
 
-private const val BASE_URL = "https://jsonplaceholder.typicode.com/"
+const val BASE_URL = "https://jsonplaceholder.typicode.com/"
 
 class OkHttp {
 

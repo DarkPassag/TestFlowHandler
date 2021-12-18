@@ -51,6 +51,7 @@ dependencies {
 
     //Retrofit
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation 'com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0'
 
     //okhttp3
     implementation "com.squareup.okhttp3:okhttp-bom:4.9.0"

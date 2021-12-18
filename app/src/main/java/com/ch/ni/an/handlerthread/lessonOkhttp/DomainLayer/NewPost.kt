@@ -4,5 +4,5 @@ import com.ch.ni.an.handlerthread.lessonOkhttp.DataLayer.PostModel
 
 interface NewPost {
 
-    fun newPost(postData :PostModel): PostModel
+   suspend fun newPost(postData :PostModel): PostModel
 }

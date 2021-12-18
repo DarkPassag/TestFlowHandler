@@ -4,5 +4,5 @@ import com.ch.ni.an.handlerthread.lessonOkhttp.DataLayer.PostModel
 
 interface PatchPost {
 
-    fun patchPost(id:Int, title: String): PostModel
+   suspend fun patchPost(id:Int, title: String): PostModel
 }
