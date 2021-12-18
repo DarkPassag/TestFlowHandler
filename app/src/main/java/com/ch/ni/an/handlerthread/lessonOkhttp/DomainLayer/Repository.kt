@@ -12,7 +12,7 @@ import kotlinx.serialization.json.Json
 import java.io.IOException
 
 
-class Repository : FetchListUsers, FetchPostsById, NewPost, UpdatePost, DeletePost {
+class Repository : FetchListUsers, FetchPostsById, NewPost, UpdatePost, DeletePost, PatchPost {
 
     private val okHttp = OkHttp()
 
@@ -54,8 +54,21 @@ class Repository : FetchListUsers, FetchPostsById, NewPost, UpdatePost, DeletePo
 
     }
 
-    override fun updatePost(postData :PostModel) :Boolean {
-        TODO("Not yet implemented")
+    override fun updatePost(postData :PostModel) :PostModel {
+        okHttp.updatePost(postData).clone().execute().use { response ->
+            if(!response.isSuccessful) throw IOException(response.message)
+            val stringResponseBody = response.body!!.string()
+            return Json.decodeFromString<PostModel>(stringResponseBody)
+
+        }
+    }
+
+    override fun patchPost(id: Int, title: String): PostModel {
+        okHttp.patchPost(id, title).clone().execute().use {
+            if(!it.isSuccessful) throw IOException(it.message)
+            val responseString = it.body!!.string()
+            return Json.decodeFromString(responseString)
+        }
     }
 
 

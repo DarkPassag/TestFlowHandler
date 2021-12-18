@@ -28,6 +28,9 @@ class UserViewModel: ViewModel() {
        return _newPost
     }
 
+    private val _patchPost = MutableLiveData<PostModel>()
+    val patchPost: LiveData<PostModel> get() = _patchPost
+
 
 
     fun getPosts(id: Int){
@@ -38,9 +41,15 @@ class UserViewModel: ViewModel() {
 
     fun addPost(postModel: PostModel){
         viewModelScope.launch(Dispatchers.IO){
-            _newPost.postValue(repository.newPost(postModel))
+            _newPost.postValue(repository.updatePost(postModel))
+        }
+    }
+
+    fun patchPost(id: Int, title:String){
+        viewModelScope.launch(Dispatchers.IO){
+            _patchPost.postValue(repository.patchPost(id, title))
+
         }
 
-        getPosts(postModel.userId)
     }
 }

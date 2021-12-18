@@ -1,6 +1,7 @@
 package com.ch.ni.an.handlerthread.lessonOkhttp.UILayer.adapters
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -9,7 +10,9 @@ import com.ch.ni.an.handlerthread.databinding.RecyclerviewPostItemBinding
 import com.ch.ni.an.handlerthread.lessonOkhttp.DataLayer.PostModel
 
 
-class UserDetailAdapter :
+class UserDetailAdapter(
+    private val onClickListener: View.OnClickListener
+) :
     ListAdapter<PostModel, UserDetailAdapter.UserDetailHolder>(UserDetailDiffUtil) {
 
 
@@ -30,7 +33,10 @@ class UserDetailAdapter :
     }
 
     override fun onBindViewHolder(holder :UserDetailHolder, position :Int) {
-        holder.bind(getItem(position))
+        val item = getItem(position)
+        holder.itemView.tag = item
+        holder.itemView.setOnClickListener(onClickListener)
+        holder.bind(item)
     }
 
     object UserDetailDiffUtil : DiffUtil.ItemCallback<PostModel>() {

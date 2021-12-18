@@ -7,10 +7,12 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import okhttp3.Call
 import okhttp3.HttpUrl.Companion.toHttpUrl
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.logging.HttpLoggingInterceptor
+import org.json.JSONObject
 
 private const val BASE_URL = "https://jsonplaceholder.typicode.com/"
 
@@ -65,8 +67,48 @@ class OkHttp {
 
     }
 
+    fun updatePost(postModel: PostModel): Call{
+
+        val newUrl = BASE_URL.toHttpUrl().newBuilder().apply {
+            addPathSegment("posts")
+            addPathSegment(postModel.id.toString())
+        }
+
+
+        val body = Json.encodeToString(postModel)
+
+        val updatePost = Request.Builder()
+            .url(newUrl.build())
+            .put(body.toRequestBody())
+            .addHeader("Content-type", "application/json; charset=UTF-8")
+            .build()
+
+        return client.newCall(updatePost)
+
+    }
+
+    fun patchPost(id: Int, title: String): Call{
+
+        val newUrl = BASE_URL.toHttpUrl().newBuilder().apply {
+            addPathSegment("posts")
+            addPathSegment(id.toString())
+        }
+
+            val body = JSONObject()
+            body.put("title", title)
+
+            val mediaType = "application/json; charset=UTF-8".toMediaType()
+
+            val request = Request.Builder()
+                .url(newUrl.build())
+                .patch(body.toString().toRequestBody(mediaType))
+                .build()
+
+            return client.newCall(request)
+        }
+    }
 
 
 
 
-}
+

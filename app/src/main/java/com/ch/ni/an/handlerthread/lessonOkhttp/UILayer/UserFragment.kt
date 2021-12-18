@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,6 +15,7 @@ import com.ch.ni.an.handlerthread.lessonOkhttp.DataLayer.User
 import com.ch.ni.an.handlerthread.lessonOkhttp.DataLayer.UserModel
 import com.ch.ni.an.handlerthread.lessonOkhttp.Extensions.toUserUiLayer
 import com.ch.ni.an.handlerthread.lessonOkhttp.UILayer.adapters.UserDetailAdapter
+import com.ch.ni.an.handlerthread.lessonOkhttp.UILayer.adapters.UsersAdapter
 import com.ch.ni.an.handlerthread.lessonOkhttp.UILayer.viewModels.UserViewModel
 import com.google.android.material.snackbar.Snackbar
 
@@ -22,9 +24,7 @@ class UserFragment: Fragment() {
     private var _binding: FragmentUserDetailBinding? = null
     private val binding : FragmentUserDetailBinding get() = _binding!!
     private val myModel: UserViewModel by activityViewModels()
-    private val adapter:UserDetailAdapter by lazy {
-        UserDetailAdapter()
-    }
+    private lateinit var adapter: UserDetailAdapter
 
     private val recyclerView: RecyclerView by lazy {
         binding.recyclerView
@@ -45,6 +45,10 @@ class UserFragment: Fragment() {
         val user = requireArguments().getParcelable<User>(KEY_USER)?.toUserUiLayer()
 
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        adapter = UserDetailAdapter {
+            val post = it.tag as PostModel
+            myModel.patchPost(post.id, "This is new title by patch")
+        }
         recyclerView.adapter = adapter
 
         myModel.post.observe(viewLifecycleOwner, {
@@ -63,7 +67,7 @@ class UserFragment: Fragment() {
 
         binding.fab.setOnClickListener {
             checkNotNull(user)
-            val newPostModel: PostModel = PostModel(user.id, 22, "My First Post", "I add my First Post" )
+            val newPostModel: PostModel = PostModel(1, "My First Post", "I add my First Post", user.id )
             myModel.addPost(newPostModel)
 
         }
@@ -73,11 +77,21 @@ class UserFragment: Fragment() {
                 Snackbar.make(view, it.toString(), Snackbar.LENGTH_SHORT).show()
             }
         })
+
+
+        myModel.patchPost.observe(this, {
+            Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_LONG).show()
+        })
+
+
     }
+
 
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
+
+
 }

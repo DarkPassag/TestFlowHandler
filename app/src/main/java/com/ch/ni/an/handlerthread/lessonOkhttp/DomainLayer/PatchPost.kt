@@ -2,7 +2,7 @@ package com.ch.ni.an.handlerthread.lessonOkhttp.DomainLayer
 
 import com.ch.ni.an.handlerthread.lessonOkhttp.DataLayer.PostModel
 
-interface UpdatePost {
+interface PatchPost {
 
-    fun updatePost(postData :PostModel): PostModel
+    fun patchPost(id:Int, title: String): PostModel
 }
