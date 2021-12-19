@@ -10,6 +10,7 @@ import com.ch.ni.an.handlerthread.lessonOkhttp.Presenter.models.PostUiModel
 import domain.repository.FetchPostsById
 import domain.repository.PatchPost
 import domain.repository.PostsRepository
+import domain.repository.UserRepository
 
 
 import kotlinx.coroutines.Dispatchers
@@ -17,7 +18,6 @@ import kotlinx.coroutines.launch
 
 class UserViewModel(
    private val postsRepository: PostsRepository
-
 ) : ViewModel() {
 
 

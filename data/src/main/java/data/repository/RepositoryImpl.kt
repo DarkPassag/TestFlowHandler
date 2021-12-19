@@ -21,14 +21,12 @@ import kotlin.random.Random
 class RepositoryImpl(
     private val okHttp: OkHttp,
     private val service: RetrofitApi
-) : DeletePost,  FetchListUsers, PostsRepository  {
+) : FetchListUsers, PostsRepository  {
 
 
     val boolean = Random.nextBoolean()
 
-    override suspend fun deletePost(id: Int): Boolean {
-        TODO("Not yet implemented")
-    }
+
 
     override suspend fun fetchListOfUsers(): List<UserDomainModel> {
         return if (boolean) fetchListUsersByOkHttp()

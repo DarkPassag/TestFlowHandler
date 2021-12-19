@@ -6,24 +6,21 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ch.ni.an.handlerthread.databinding.FragmentUserDetailBinding
 import com.ch.ni.an.handlerthread.lessonOkhttp.Presenter.adapters.UserDetailAdapter
 import com.ch.ni.an.handlerthread.lessonOkhttp.Presenter.models.PostUiModel
 import com.ch.ni.an.handlerthread.lessonOkhttp.Presenter.models.UserUiModel
-import com.ch.ni.an.handlerthread.lessonOkhttp.Presenter.viewModels.UserDetailFactoryViewModel
 import com.ch.ni.an.handlerthread.lessonOkhttp.Presenter.viewModels.UserViewModel
 import com.google.android.material.snackbar.Snackbar
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class UserFragment: Fragment() {
+class UserFragment : Fragment() {
 
     private var _binding: FragmentUserDetailBinding? = null
-    private val binding : FragmentUserDetailBinding get() = _binding!!
-    private lateinit var myModel: UserViewModel
-    private lateinit var factoryModel: UserDetailFactoryViewModel
+    private val binding: FragmentUserDetailBinding get() = _binding!!
+    private val myModel  by viewModel<UserViewModel>()
     private lateinit var adapter: UserDetailAdapter
 
     private val recyclerView: RecyclerView by lazy {
@@ -31,18 +28,16 @@ class UserFragment: Fragment() {
     }
 
 
-
     override fun onCreateView(
-        inflater :LayoutInflater,
-        container :ViewGroup?,
-        savedInstanceState :Bundle?) :View? {
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         _binding = FragmentUserDetailBinding.inflate(inflater, container, false)
-        factoryModel = UserDetailFactoryViewModel()
-        myModel = ViewModelProvider(this, factoryModel).get(UserViewModel::class.java)
         return binding.root
     }
 
-    override fun onViewCreated(view :View, savedInstanceState :Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val user = requireArguments().getParcelable<UserUiModel>(KEY_USER)
 
@@ -56,7 +51,7 @@ class UserFragment: Fragment() {
         myModel.post.observe(viewLifecycleOwner, {
             adapter.submitList(it)
         })
-        with(binding){
+        with(binding) {
             checkNotNull(user)
             myModel.getPosts(user.id)
             userNameTextView.text = user.name
@@ -69,7 +64,8 @@ class UserFragment: Fragment() {
 
         binding.fab.setOnClickListener {
             checkNotNull(user)
-            val newPostModel: PostUiModel = PostUiModel(1, "My First Post", "I add my First Post", user.id )
+            val newPostModel: PostUiModel =
+                PostUiModel(1, "My First Post", "I add my First Post", user.id)
             myModel.addPost(newPostModel)
 
         }
@@ -87,7 +83,6 @@ class UserFragment: Fragment() {
 
 
     }
-
 
 
     override fun onDestroyView() {
