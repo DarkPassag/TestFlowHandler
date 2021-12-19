@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import com.ch.ni.an.handlerthread.R
-import com.ch.ni.an.handlerthread.lessonOkhttp.UILayer.ListUsersFragment
+import com.ch.ni.an.handlerthread.lessonOkhttp.Presenter.ListUsersFragment
 
 
 class UsersActivity: AppCompatActivity() {
