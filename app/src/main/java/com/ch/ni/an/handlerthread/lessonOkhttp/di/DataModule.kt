@@ -7,6 +7,7 @@ import data.retrofit.Common
 import data.retrofit.RetrofitApi
 import domain.repository.FetchListUsers
 import domain.repository.PostsRepository
+import domain.repository.Repository
 import org.koin.dsl.module
 
 val dataModule = module {
@@ -19,14 +20,12 @@ val dataModule = module {
         Common.service
     }
 
-    single<FetchListUsers> {
+    single<Repository> {
         RepositoryImpl(
             okHttp = get(),
             service = get()
         )
     }
 
-    single<PostsRepository> {
-        RepositoryImpl(get(), get())
-    }
+
 }

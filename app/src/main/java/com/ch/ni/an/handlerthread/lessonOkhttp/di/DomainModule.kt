@@ -10,7 +10,4 @@ val domainModule = module {
         FetchListUsers(get())
     }
 
-    factory {
-
-    }
 }

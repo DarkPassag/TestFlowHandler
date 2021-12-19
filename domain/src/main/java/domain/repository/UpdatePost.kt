@@ -3,7 +3,7 @@ package domain.repository
 
 import domain.models.PostDomainModel
 
-interface UpdatePost : UserRepository {
+interface UpdatePost {
 
    suspend fun updatePost(post : PostDomainModel): PostDomainModel
 }

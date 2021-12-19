@@ -1,6 +1,6 @@
 package domain.repository
 
-interface DeletePost : UserRepository {
+interface DeletePost {
 
     suspend fun deletePost(id: Int): Boolean
 }

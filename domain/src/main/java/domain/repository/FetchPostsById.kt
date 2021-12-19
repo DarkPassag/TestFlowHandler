@@ -3,7 +3,7 @@ package domain.repository
 import domain.models.PostDomainModel
 
 
-interface FetchPostsById : UserRepository {
+interface FetchPostsById{
 
    suspend fun getPosts(id:Int): List<PostDomainModel>
 }

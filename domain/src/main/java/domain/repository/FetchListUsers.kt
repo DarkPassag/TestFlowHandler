@@ -2,7 +2,7 @@ package domain.repository
 
 import domain.models.UserDomainModel
 
-interface FetchListUsers : UserRepository {
+interface FetchListUsers {
 
    suspend fun fetchListOfUsers(): List<UserDomainModel>
 }

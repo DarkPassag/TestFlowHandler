@@ -1,6 +1,7 @@
 package data.repository
 
 
+import android.util.Log
 import data.PostModel
 import data.UserModel
 import data.UserTitleModel
@@ -21,8 +22,11 @@ import kotlin.random.Random
 class RepositoryImpl(
     private val okHttp: OkHttp,
     private val service: RetrofitApi
-) : FetchListUsers, PostsRepository  {
+) : Repository  {
 
+    init {
+        Log.e("Tag", "RepositoryCreated")
+    }
 
     val boolean = Random.nextBoolean()
 
